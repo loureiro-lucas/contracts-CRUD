@@ -5,7 +5,7 @@ import Contracts from '../pages/Contracts';
 
 const Routes = () => (
   <>
-    <Route exact path='/' component={ Login } />
+    <Route exact path='/' render={ (props) => <Login { ...props } /> } />
     <Route path='/contracts' component={ Contracts } />
   </>
 );
