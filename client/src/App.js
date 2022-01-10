@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
-import Login from './pages/Login';
+import Routes from './routes';
 
 function App() {
   return (
     <Switch>
-      <Login />
+      <Routes />
     </Switch>
   );
 };

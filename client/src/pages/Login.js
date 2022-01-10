@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Button, TextField } from '@mui/material';
+import PropTypes from 'prop-types';
 
-const Login = (history) => {
+const Login = ({ history }) => {
   const [userInput, setUserInput] = useState({
     username: '',
     password: '',
@@ -18,8 +20,8 @@ const Login = (history) => {
 
   const submitLogin = (event) => {
     event.preventDefault();
-    history.pushState('/contracts');
-  }
+    history.push('/contracts');
+  };
 
   return (
     <Container sx={{
@@ -69,6 +71,12 @@ const Login = (history) => {
       </form>
     </Container>
   );
+};
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default Login;
