@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getContracts } from '../redux/actions';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
 
 const Login = ({ history }) => {
   const [userInput, setUserInput] = useState({
     username: '',
     password: '',
   });
+
+  const dispatch = useDispatch();
 
   const handleInputChanges = ({ target: { name, value } }) => {
     setUserInput((prevUserInput) => ({
@@ -20,6 +24,7 @@ const Login = ({ history }) => {
 
   const submitLogin = (event) => {
     event.preventDefault();
+    dispatch(getContracts());
     history.push('/contracts');
   };
 

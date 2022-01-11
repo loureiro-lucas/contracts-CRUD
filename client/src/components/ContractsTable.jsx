@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux'
 import Container from '@mui/material/Container';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,6 +11,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const ContractsTable = () => {
+  const contracts = useSelector((state) => state.contracts.contracts);
+
   return (
   <Container>
     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -23,22 +26,23 @@ const ContractsTable = () => {
       </TableHead>
 
       <TableBody>
-        <TableRow
-          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-        >
-          <TableCell>1234567890</TableCell>
-          <TableCell>Razão Social 1</TableCell>
-          <TableCell>Company 1</TableCell>
-          <TableCell align="center">
-            <IconButton onClick={() => console.log("edited")}>
-              <EditIcon color="primary" />
-            </IconButton>
-            <IconButton onClick={() => console.log("deleted")}>
-              <DeleteIcon color="error" />
-            </IconButton>
-          </TableCell>
-        </TableRow>
-
+        { contracts.map(({ documentNumber, socialRason, company: { name } }) => (
+          <TableRow
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+            <TableCell>{ documentNumber }</TableCell>
+            <TableCell>{ socialRason }</TableCell>
+            <TableCell>{ name }</TableCell>
+            <TableCell align="center">
+              <IconButton onClick={() => console.log("edited")}>
+                <EditIcon color="primary" />
+              </IconButton>
+              <IconButton onClick={() => console.log("deleted")}>
+                <DeleteIcon color="error" />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+        )) }
       </TableBody>
     </Table>
   </Container>

@@ -1,12 +1,16 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import Routes from './routes';
 
 function App() {
   return (
-    <Switch>
-      <Routes />
-    </Switch>
+    <Provider store={ store }>
+      <Switch>
+        <Routes />
+      </Switch>
+    </Provider>
   );
 };
 
