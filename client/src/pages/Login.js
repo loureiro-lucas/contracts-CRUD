@@ -35,7 +35,6 @@ const Login = ({ history }) => {
           color="primary"
           variant="h4"
           component="h1"
-          my={ 2 }
         >
           Login
         </Typography>
@@ -43,6 +42,7 @@ const Login = ({ history }) => {
           type="text"
           name="username"
           label="Username"
+          variant="standard"
           size="small"
           value={ userInput.username }
           onChange={ handleInputChanges }
@@ -54,6 +54,7 @@ const Login = ({ history }) => {
           type="password"
           name="password"
           label="Password"
+          variant="standard"
           size="small"
           value={ userInput.password }
           onChange={ handleInputChanges }
