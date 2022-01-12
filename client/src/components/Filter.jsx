@@ -50,7 +50,7 @@ const Filter = () => {
           <TextField
             type="text"
             name="socialReason"
-            label="Social Rason"
+            label="Social Reason"
             variant="outlined"
             size="small"
             sx={{ width: "200px", m: 1 }}
@@ -63,7 +63,7 @@ const Filter = () => {
               labelId="company-label"
               name="company"
               label="Company"
-              value={ filterInput.company}
+              value={ filterInput.company }
               size="small"
               sx={{ width: "200px", m: 1 }}
               onChange={ handleFilterInputs }

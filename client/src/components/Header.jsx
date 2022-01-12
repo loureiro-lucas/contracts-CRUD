@@ -25,19 +25,19 @@ const Header = ({ pathname }) => {
             type="button"
             variant="contained"
             sx={{ my: 2, mr: 2, color: '#1976D2', backgroundColor: 'white' }}
-            onClick={ () => history.push('/new-contract') }
-            disabled={ pathname === '/new-contract' }
+            onClick={ () => history.push('/contracts') }
+            disabled={ pathname === '/contracts' }
           >
-            New Contract
+            Contracts
           </Button>
           <Button
             type="button"
             variant="contained"
             sx={{ my: 2, mr: 2, color: '#1976D2', backgroundColor: 'white' }}
-            onClick={ () => history.push('/contracts') }
-            disabled={ pathname === '/contracts' }
+            onClick={ () => history.push('/new-contract') }
+            disabled={ pathname === '/new-contract' }
           >
-            Contracts
+            New Contract
           </Button>
         </Box>
         <Typography

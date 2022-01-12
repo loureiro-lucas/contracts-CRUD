@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getContracts } from '../redux/actions';
 import Button from '@mui/material/Button';
@@ -21,12 +21,25 @@ const Login = ({ history }) => {
       [name]: value,
     }));
   };
+  
+  const contracts = useSelector((state) => state.contracts.contracts);
+  const companies = useSelector((state) => state.companies.companies);
 
-  const submitLogin = (event) => {
-    event.preventDefault();
-    dispatch(getContracts());
-    history.push('/contracts');
+  const saveContractsToLocalStore = () => {
+    localStorage.setItem('contracts', JSON.stringify(contracts));
   };
+  
+  const saveCompaniesToLocalStore = () => {
+    localStorage.setItem('companies', JSON.stringify(companies));
+  };
+  
+    const submitLogin = async (event) => {
+      event.preventDefault();
+      await dispatch(getContracts());
+      await saveContractsToLocalStore();
+      await saveCompaniesToLocalStore();
+      history.push('/contracts');
+    };
 
   return (
     <Container sx={{

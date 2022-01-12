@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,7 +10,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const ContractsTable = () => {
-  const contracts = useSelector((state) => state.contracts.contracts);
+  const [contracts, setContracts] = useState([]);
+  console.log(contracts);
+
+  const recoverContractsFromLocalStorage = async() => {
+    const contractsList = await JSON.parse(localStorage.getItem('contracts'));
+    console.log(`CL:${contractsList}`)
+    setContracts(contractsList);
+  };
+
+  useEffect(() => {
+    recoverContractsFromLocalStorage();
+  }, []);
 
   return (
   <Container>
@@ -19,19 +29,20 @@ const ContractsTable = () => {
       <TableHead>
         <TableRow>
           <TableCell>Document Number</TableCell>
-          <TableCell>Social Rason</TableCell>
+          <TableCell>Social Reason</TableCell>
           <TableCell>Company</TableCell>
           <TableCell align="center">Actions</TableCell>
         </TableRow>
       </TableHead>
 
       <TableBody>
-        { contracts.map(({ documentNumber, socialRason, company: { name } }) => (
+        { contracts.map(({ documentNumber, socialReason, company: { name } }, index) => (
           <TableRow
+            key={ index }
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell>{ documentNumber }</TableCell>
-            <TableCell>{ socialRason }</TableCell>
+            <TableCell>{ socialReason }</TableCell>
             <TableCell>{ name }</TableCell>
             <TableCell align="center">
               <IconButton onClick={() => console.log("edited")}>

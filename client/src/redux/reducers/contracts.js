@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const firstContract = {
   documentNumber: '1234567890',
-  socialRason: 'Social Rason 1',
+  socialReason: 'Social Reason 1',
   company: {
     id: '12345',
     name: 'Company 1'
@@ -48,7 +48,7 @@ const contracts = (state = INITIAL_STATE, action) => {
     });
   default:
     return state;
-  }
+  };
 };
 
 export default contracts;
