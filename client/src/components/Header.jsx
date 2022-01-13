@@ -12,6 +12,7 @@ const Header = ({ pathname }) => {
   return (
     <AppBar
       position="static"
+      sx={{ minWidth: "1048px" }}
     >
       <Toolbar
         sx={{

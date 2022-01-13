@@ -22,7 +22,7 @@ const NewContractForm = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          minWidth: "800px",
+          minWidth: "1000px",
         }}>
           <Box sx={{ display: "flex" }}>
             <FormControl sx={{ flexGrow: 1 }}>
@@ -179,7 +179,7 @@ const NewContractForm = () => {
               // value=''
               onChange=''
             />
-            <FormControl sx={{ flexGrow: 1 }}>
+            <FormControl sx={{ flexGrow: 1, minWidth: "260px" }}>
               <InputLabel id="dueDay-label">Due day</InputLabel>
               <Select
                 labelId="dueDay-label"
@@ -197,7 +197,7 @@ const NewContractForm = () => {
           </Box>
           <Box sx={{ display: "flex" }}>
             <FormControl sx={{ flexGrow: 1 }}>
-                <InputLabel id="company-label">Due day</InputLabel>
+                <InputLabel id="company-label">Select a company</InputLabel>
                 <Select
                   labelId="company-label"
                   name="company"
