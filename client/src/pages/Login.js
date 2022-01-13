@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getContracts } from '../redux/actions';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
 
 const Login = ({ history }) => {
   const [userInput, setUserInput] = useState({
@@ -11,17 +13,33 @@ const Login = ({ history }) => {
     password: '',
   });
 
+  const dispatch = useDispatch();
+
   const handleInputChanges = ({ target: { name, value } }) => {
     setUserInput((prevUserInput) => ({
       ...prevUserInput,
       [name]: value,
     }));
   };
+  
+  const contracts = useSelector((state) => state.contracts.contracts);
+  const companies = useSelector((state) => state.companies.companies);
 
-  const submitLogin = (event) => {
-    event.preventDefault();
-    history.push('/contracts');
+  const saveContractsToLocalStore = () => {
+    localStorage.setItem('contracts', JSON.stringify(contracts));
   };
+  
+  const saveCompaniesToLocalStore = () => {
+    localStorage.setItem('companies', JSON.stringify(companies));
+  };
+  
+    const submitLogin = async (event) => {
+      event.preventDefault();
+      await dispatch(getContracts());
+      await saveContractsToLocalStore();
+      await saveCompaniesToLocalStore();
+      history.push('/contracts');
+    };
 
   return (
     <Container sx={{
@@ -35,7 +53,6 @@ const Login = ({ history }) => {
           color="primary"
           variant="h4"
           component="h1"
-          my={ 2 }
         >
           Login
         </Typography>
@@ -43,6 +60,7 @@ const Login = ({ history }) => {
           type="text"
           name="username"
           label="Username"
+          variant="standard"
           size="small"
           value={ userInput.username }
           onChange={ handleInputChanges }
@@ -54,6 +72,7 @@ const Login = ({ history }) => {
           type="password"
           name="password"
           label="Password"
+          variant="standard"
           size="small"
           value={ userInput.password }
           onChange={ handleInputChanges }
