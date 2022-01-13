@@ -1,25 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import NewContractContext from '../context/NewContractContext';
+import ContractsProducts from '../components/ContractsProducts';
 import Header from '../components/Header';
 import NewContractForm from '../components/NewContractForm';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import ContractsProducts from '../components/ContractsProducts';
+import PropTypes from 'prop-types';
 
 const NewContracts = ({ location: { pathname } }) => {
+  const context = {};
+
   return (
-    <>
+    <NewContractContext.Provider value={ context }>
       <Header pathname={ pathname } />
       <NewContractForm />
       <ContractsProducts />
-    </>
+    </NewContractContext.Provider>
   )
 };
 

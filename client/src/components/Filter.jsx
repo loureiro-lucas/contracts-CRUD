@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import AppContext from '../context/AppContext';
+import ContractContext from '../context/ContractsContext';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
@@ -10,7 +10,12 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 const Filter = () => {
-  const { filterInput, setFilterInput } = useContext(AppContext);
+  const {
+    filterInput,
+    setFilterInput,
+    companiesList,
+    contractsFilter,
+  } = useContext(ContractContext);
 
   const handleFilterInputs = ({ target: { name, value } }) => {
     setFilterInput((prevUser) => ({
@@ -21,7 +26,7 @@ const Filter = () => {
 
   const submitFilter = (event) => {
     event.preventDefault();
-    console.log(filterInput);
+    contractsFilter();
   };
 
   return (
@@ -35,7 +40,7 @@ const Filter = () => {
         <Container sx={{
           display: "flex",
           justifyContent: "flex-start",
-          minWidth: "800px",
+          minWidth: "1000px",
         }}>
           <TextField
             type="text"
@@ -69,9 +74,9 @@ const Filter = () => {
               onChange={ handleFilterInputs }
               >
               <MenuItem disabled value={''}></MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              { companiesList.map(({ name }) => (
+                <MenuItem key={ name } value={ name }>{ name }</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <Button
