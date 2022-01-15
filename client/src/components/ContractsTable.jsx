@@ -11,19 +11,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 const ContractsTable = () => {
-  // const [contracts, setContracts] = useState([]);
-
-  // const recoverContractsFromLocalStorage = async() => {
-  //   const contractsList = await JSON.parse(localStorage.getItem('contracts'));
-  //   console.log(`CL:${contractsList}`)
-  //   setContracts(contractsList);
-  // };
-
-  // useEffect(() => {
-  //   recoverContractsFromLocalStorage();
-  // }, []);
-
-  const { contractsListFiltered } = useContext(ContractsContext);
+  const {
+    contractsListFiltered,
+    deleteContract,
+  } = useContext(ContractsContext);
 
   return (
   <Container>
@@ -47,10 +38,10 @@ const ContractsTable = () => {
             <TableCell>{ socialReason }</TableCell>
             <TableCell>{ name }</TableCell>
             <TableCell align="center">
-              <IconButton onClick={() => console.log("edited")}>
+              <IconButton>
                 <EditIcon color="primary" />
               </IconButton>
-              <IconButton onClick={() => console.log("deleted")}>
+              <IconButton onClick={ () => deleteContract(index) }>
                 <DeleteIcon color="error" />
               </IconButton>
             </TableCell>
