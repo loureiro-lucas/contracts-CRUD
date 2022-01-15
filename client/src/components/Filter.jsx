@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import AppContext from '../context/AppContext';
+import ContractContext from '../context/ContractsContext';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
@@ -10,19 +10,79 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 const Filter = () => {
-  const { filterInput, setFilterInput } = useContext(AppContext);
-
-  const handleFilterInputs = ({ target: { name, value } }) => {
-    setFilterInput((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-  }
+  const {
+    filterInput,
+    handleFilterInputs,
+    contractsFilter,
+  } = useContext(ContractContext);
 
   const submitFilter = (event) => {
     event.preventDefault();
-    console.log(filterInput);
+    contractsFilter();
   };
+
+  const companiesList = [
+    {
+      name: 'Company 1',
+      id: 1213
+    },
+    {
+      name: 'Company 2',
+      id: 3513
+    },
+    {
+      name: 'Company 3',
+      id: 14123
+    },
+    {
+      name: 'Company 4',
+      id: 573
+    },
+    {
+      name: 'Company 5',
+      id: 2352352
+    },
+    {
+      name: 'Company 6',
+      id: 23423123
+    },
+    {
+      name: 'Company 7',
+      id: 12323523
+    },
+    {
+      name: 'Company 8',
+      id: 7894545
+    },
+    {
+      name: 'Company 9',
+      id: 34363473
+    },
+    {
+      name: 'Company 10',
+      id: 34621423
+    },
+    {
+      name: 'Company 11',
+      id: 78534563
+    },
+    {
+      name: 'Company 12',
+      id: 3453
+    },
+    {
+      name: 'Company 13',
+      id: 423425
+    },
+    {
+      name: 'Company 14',
+      id: 867678
+    },
+    {
+      name: 'Company 15',
+      id: 2342125433
+    },
+  ];
 
   return (
     <Container>
@@ -35,7 +95,7 @@ const Filter = () => {
         <Container sx={{
           display: "flex",
           justifyContent: "flex-start",
-          minWidth: "800px",
+          minWidth: "1000px",
         }}>
           <TextField
             type="text"
@@ -69,9 +129,9 @@ const Filter = () => {
               onChange={ handleFilterInputs }
               >
               <MenuItem disabled value={''}></MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              { companiesList.map(({ name }) => (
+                <MenuItem key={ name } value={ name }>{ name }</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <Button

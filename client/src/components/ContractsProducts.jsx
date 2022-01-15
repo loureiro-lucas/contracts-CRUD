@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -8,6 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import NewContractContext from '../context/NewContractContext';
 import Select from '@mui/material/Select';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,18 +19,30 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 const ContractsProducts = () => {
-  const productsList = [{
-    product: "Product 1",
-    amount: "5",
-    finalUnitPrice: "100",
-    installments: 2,
-    paidInstallments: 1,
-    beginningOfTerm: "01/01/2022",
-  }];
+  const {
+    newProductInput,
+    handleNewProductInputs,
+    handleAddProductButton,
+    contractProducts,
+    removeProducts,
+  } = useContext(NewContractContext);
+
+  const productsList = [
+    'Produto 1',
+    'Produto 2',
+    'Produto 3',
+    'Produto 4',
+    'Produto 5',
+    'Produto 6',
+    'Produto 7',
+    'Produto 8',
+    'Produto 9',
+    'Produto 10',
+  ];
 
   const renderNewProductForm = () => (
     <form
-    onSubmit=''
+    onSubmit={ handleAddProductButton }
     autoComplete='off'
   >
     <Container sx={{
@@ -45,13 +58,17 @@ const ContractsProducts = () => {
             labelId="product-label"
             name="product"
             label="Product"
-            value=''
+            value={ newProductInput.product }
             size="small"
             sx={{ m: 1 }}
-            onChange=''
+            onChange={ handleNewProductInputs }
             >
               <MenuItem disabled value={''}></MenuItem>
-              <MenuItem value='product1'>Product 1</MenuItem>
+              {
+                productsList.map((product) => (
+                  <MenuItem key={ product } value={ product }>{ product }</MenuItem>
+                ))
+              }
             </Select>
           </FormControl>
         <TextField
@@ -61,8 +78,8 @@ const ContractsProducts = () => {
           variant="outlined"
           size="small"
           sx={{ m: 1, flexGrow: 1 }}
-          value=''
-          onChange=''
+          value={ newProductInput.amount }
+          onChange={ handleNewProductInputs }
         />
         <TextField
           type="number"
@@ -71,8 +88,8 @@ const ContractsProducts = () => {
           variant="outlined"
           size="small"
           sx={{ m: 1, flexGrow: 1 }}
-          value=''
-          onChange=''
+          value={ newProductInput.finalUnitPrice }
+          onChange={ handleNewProductInputs }
         />
       </Box>
       <Box sx={{ display: "flex" }}>
@@ -83,8 +100,8 @@ const ContractsProducts = () => {
           variant="outlined"
           size="small"
           sx={{ m: 1, flexGrow: 1 }}
-          value=''
-          onChange=''
+          value={ newProductInput.installments }
+          onChange={ handleNewProductInputs }
         />
         <TextField
           type="number"
@@ -93,8 +110,8 @@ const ContractsProducts = () => {
           variant="outlined"
           size="small"
           sx={{ m: 1, flexGrow: 1 }}
-          value=''
-          onChange=''
+          value={ newProductInput.paidInstallments }
+          onChange={ handleNewProductInputs }
         />
         <TextField
           type="date"
@@ -106,8 +123,8 @@ const ContractsProducts = () => {
           InputLabelProps={{
             shrink: true,
           }}
-          // value=''
-          onChange=''
+          value={ newProductInput.beginningOfTerm }
+          onChange={ handleNewProductInputs }
         />
         <Button
           type="submit"
@@ -122,8 +139,19 @@ const ContractsProducts = () => {
   );
 
   const renderProductsTable = () => (
-    <Container sx={{ minWidth: 1000 }}>
-      <Table aria-label="simple table">
+    <Container
+      sx={{
+        minWidth: 1000,
+        my: 2,
+      }}
+    >
+      <Table
+        aria-label="simple table"
+        sx={{
+          backgroundColor: "#f5f5f5",
+          borderRadius: "5px",
+        }}
+      >
         <TableHead>
           <TableRow>
             <TableCell sx={{ minWidth: "100px" }}>Product</TableCell>
@@ -137,7 +165,7 @@ const ContractsProducts = () => {
         </TableHead>
 
         <TableBody>
-          { productsList.map(({ product, amount, finalUnitPrice, installments, paidInstallments, beginningOfTerm }, index) => (
+          { contractProducts.map(({ product, amount, finalUnitPrice, installments, paidInstallments, beginningOfTerm }, index) => (
             <TableRow
               key={ index }
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -149,10 +177,10 @@ const ContractsProducts = () => {
               <TableCell sx={{ textAlign: "end" }}>{ paidInstallments }</TableCell>
               <TableCell sx={{ textAlign: "end" }}>{ beginningOfTerm }</TableCell>
               <TableCell align="center">
-                <IconButton onClick={() => console.log("edited")}>
+                <IconButton>
                   <EditIcon color="primary" />
                 </IconButton>
-                <IconButton onClick={() => console.log("deleted")}>
+                <IconButton onClick={() => removeProducts(index)}>
                   <DeleteIcon color="error" />
                 </IconButton>
               </TableCell>
@@ -170,26 +198,6 @@ const ContractsProducts = () => {
       </Typography>
       { renderNewProductForm() }
       { renderProductsTable() }
-      <Box sx={{
-        display: "flex",
-        justifyContent: "flex-end",
-      }}>
-        <Button
-          type="submit"
-          variant="contained"
-          color="error"
-          sx={{ m: 1, height: "40px" }}
-        >
-          Discard changes
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ m: 1, height: "40px" }}
-        >
-          Create Contract
-        </Button>
-      </Box>
     </Container>
   );
 };

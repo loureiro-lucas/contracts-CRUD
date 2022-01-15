@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { getContracts } from '../redux/actions';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import { getContracts } from '../redux/actions';
+import { getContractsFromStorage, saveContractsToStorage } from '../services';
+import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { useDispatch } from 'react-redux';
 
 const Login = ({ history }) => {
+  const dispatch = useDispatch();
+
+  const userData = {
+    username: 'admin',
+    password: 'securepassword'
+  };
+
   const [userInput, setUserInput] = useState({
     username: '',
     password: '',
   });
-
-  const dispatch = useDispatch();
 
   const handleInputChanges = ({ target: { name, value } }) => {
     setUserInput((prevUserInput) => ({
@@ -21,25 +27,72 @@ const Login = ({ history }) => {
       [name]: value,
     }));
   };
-  
-  const contracts = useSelector((state) => state.contracts.contracts);
-  const companies = useSelector((state) => state.companies.companies);
 
-  const saveContractsToLocalStore = () => {
-    localStorage.setItem('contracts', JSON.stringify(contracts));
+  const [inputError, setInputError] = useState(false);
+
+  const validateUserInput = () => {
+    if (userInput.username !== userData.username
+      || userInput.password !== userData.password) {
+        setInputError(true);
+        return false;
+    } else {
+      setInputError(false);
+      return true;
+    };
   };
   
-  const saveCompaniesToLocalStore = () => {
-    localStorage.setItem('companies', JSON.stringify(companies));
-  };
-  
-    const submitLogin = async (event) => {
-      event.preventDefault();
-      await dispatch(getContracts());
-      await saveContractsToLocalStore();
-      await saveCompaniesToLocalStore();
+  const firstContractAsExample = {
+  documentNumber: '1234567890',
+  socialReason: 'Social Reason 1',
+  company: {
+    id: '12345',
+    name: 'Company 1'
+  },
+  adress: {
+    country: 'Brasil',
+    state: 'Minas Gerais',
+    city: 'Belo Horizonte',
+    street: 'Rua A',
+    district: 'Distrito B',
+    number: '123',
+    zipcode: '30600300',
+  },
+  contact: {
+    email: 'email@email.com',
+    phone: '31999998888',
+  },
+  date: {
+    startsIn: '01/01/2022',
+    endsIn: '31/12/2022',
+    dueDay: '10/01/2022',
+  },
+  products: {
+    product: 'Produto 1',
+    amount: '100',
+    finalUnitPrice: '10',
+    installments: '3',
+    paidInstallments: '1',
+    begginningOfTerm: '01/01/2022',
+  },
+};
+
+  useEffect(() => {
+    const contracts = getContractsFromStorage();
+    if (contracts.length === 0) {
+      console.log('aqui');
+      saveContractsToStorage([firstContractAsExample]);
+      dispatch(getContracts(firstContractAsExample));
+  }}, []);
+
+  const submitLogin = async (event) => {
+    event.preventDefault();
+    if(validateUserInput()) {
+      const contractsList = getContractsFromStorage();
+      await dispatch(getContracts(contractsList));
+      localStorage.setItem("username", userInput.username);
       history.push('/contracts');
     };
+  };
 
   return (
     <Container sx={{
@@ -66,6 +119,8 @@ const Login = ({ history }) => {
           onChange={ handleInputChanges }
           fullWidth
           required
+          error={ inputError }
+          helperText={ inputError && 'Usuário ou senha inválido(s)' }
           sx={{ my: 1}}
         />
         <TextField
@@ -78,6 +133,8 @@ const Login = ({ history }) => {
           onChange={ handleInputChanges }
           fullWidth
           required
+          error={ inputError }
+          helperText={ inputError && 'Usuário ou senha inválido(s)' }
           sx={{ my: 1}}
         />
         <Button

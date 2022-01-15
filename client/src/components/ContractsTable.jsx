@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import Container from '@mui/material/Container';
+import ContractsContext from '../context/ContractsContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -10,33 +11,25 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 const ContractsTable = () => {
-  const [contracts, setContracts] = useState([]);
-  console.log(contracts);
-
-  const recoverContractsFromLocalStorage = async() => {
-    const contractsList = await JSON.parse(localStorage.getItem('contracts'));
-    console.log(`CL:${contractsList}`)
-    setContracts(contractsList);
-  };
-
-  useEffect(() => {
-    recoverContractsFromLocalStorage();
-  }, []);
+  const {
+    contractsListFiltered,
+    deleteContract,
+  } = useContext(ContractsContext);
 
   return (
   <Container>
-    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <Table sx={{ minWidth: 1000 }} aria-label="simple table">
       <TableHead>
         <TableRow>
           <TableCell>Document Number</TableCell>
           <TableCell>Social Reason</TableCell>
           <TableCell>Company</TableCell>
-          <TableCell align="center">Actions</TableCell>
+          <TableCell align="center" sx={{ width: "120px" }}>Actions</TableCell>
         </TableRow>
       </TableHead>
 
       <TableBody>
-        { contracts.map(({ documentNumber, socialReason, company: { name } }, index) => (
+        { contractsListFiltered.map(({ documentNumber, socialReason, company: { name } }, index) => (
           <TableRow
             key={ index }
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -45,10 +38,10 @@ const ContractsTable = () => {
             <TableCell>{ socialReason }</TableCell>
             <TableCell>{ name }</TableCell>
             <TableCell align="center">
-              <IconButton onClick={() => console.log("edited")}>
+              <IconButton>
                 <EditIcon color="primary" />
               </IconButton>
-              <IconButton onClick={() => console.log("deleted")}>
+              <IconButton onClick={ () => deleteContract(index) }>
                 <DeleteIcon color="error" />
               </IconButton>
             </TableCell>

@@ -1,10 +1,7 @@
 export const GET_CONTRACTS = 'GET_CONTRACTS';
 export const GET_COMPANIES = 'GET_COMPANIES';
 
-export const getContracts = () => ({
+export const getContracts = (payload) => ({
   type: GET_CONTRACTS,
-});
-
-export const getCompanies = () => ({
-  type: GET_COMPANIES,
+  payload,
 });

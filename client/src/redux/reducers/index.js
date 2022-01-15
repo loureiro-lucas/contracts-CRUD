@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import contracts from './contracts';
-import companies from './companies';
 
-const rootReducer = combineReducers({ contracts, companies });
+const rootReducer = combineReducers({ contracts });
 
 export default rootReducer;

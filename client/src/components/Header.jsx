@@ -9,6 +9,8 @@ import Typography from '@mui/material/Typography';
 const Header = ({ pathname }) => {
   const history = useHistory();
 
+  const username = localStorage.getItem("username");
+
   return (
     <AppBar
       position="static"
@@ -45,7 +47,7 @@ const Header = ({ pathname }) => {
           variant="h6"
           component="p"
         >
-          Usuário: email
+          Usuário: { username }
         </Typography>
       </Toolbar>
     </AppBar>
